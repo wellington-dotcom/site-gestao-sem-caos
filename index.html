@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<title>BI Gestão Sem Caos</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="BI Gestão Sem Caos: inteligência de gestão que conecta os sistemas que você já usa e diz o que fazer, quanto vale e quem faz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F5F7; --bg-2:#EAEEF4;
+  --surface:rgba(255,255,255,.72); --surface-solid:#FFFFFF; --surface-2:rgba(255,255,255,.55);
+  --ink:#13283F; --ink-2:#324E73; --muted:#56657A;
+  --line:rgba(19,40,63,.10); --line-2:rgba(19,40,63,.16);
+  --mist:#EAEEF4; --accent:#F34405; --accent-soft:rgba(243,68,5,.10); --accent-ink:#B93A06; --on-accent:#FFFFFF; --heat-ink:#FFFFFF;
+  --amber:#FF9F40; --amber-soft:rgba(255,159,64,.16); --danger:#E0473A;
+  --bar-top:#4A6A94; --bar-bot:#13283F;
+  --heat-lo:#EAEEF4; --heat-hi:#324E73;
+  --sh:0 1px 2px rgba(19,40,63,.05),0 8px 24px rgba(19,40,63,.07);
+  --sh-lg:0 2px 4px rgba(19,40,63,.06),0 18px 44px rgba(19,40,63,.13);
+  --sh-xl:0 30px 80px rgba(19,40,63,.20);
+  --glow:rgba(50,78,115,.16);
+  --r:24px; --r-sm:14px;
+  --ez:cubic-bezier(.33,1,.68,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1522; --bg-2:#0F1E30;
+    --surface:rgba(23,40,62,.66); --surface-solid:#13283F; --surface-2:rgba(23,40,62,.45);
+    --ink:#EEF2F7; --ink-2:#B9C7D9; --muted:#8FA0B6;
+    --line:rgba(234,238,244,.10); --line-2:rgba(234,238,244,.18);
+    --mist:#1A3049; --accent:#FF5A1F; --accent-soft:rgba(255,90,31,.16); --accent-ink:#FF7A45; --on-accent:#0A1522; --heat-ink:#0A1522;
+    --amber:#FFB066; --amber-soft:rgba(255,176,102,.16); --danger:#FF6B5E;
+    --bar-top:#8FAAD0; --bar-bot:#4A6A94;
+    --heat-lo:#15283F; --heat-hi:#7F9CC4;
+    --sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+    --sh-lg:0 2px 4px rgba(0,0,0,.3),0 18px 44px rgba(0,0,0,.42);
+    --sh-xl:0 30px 80px rgba(0,0,0,.55);
+    --glow:rgba(127,156,196,.16);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1522; --bg-2:#0F1E30;
+  --surface:rgba(23,40,62,.66); --surface-solid:#13283F; --surface-2:rgba(23,40,62,.45);
+  --ink:#EEF2F7; --ink-2:#B9C7D9; --muted:#8FA0B6;
+  --line:rgba(234,238,244,.10); --line-2:rgba(234,238,244,.18);
+  --mist:#1A3049; --accent:#FF5A1F; --accent-soft:rgba(255,90,31,.16); --accent-ink:#FF7A45; --on-accent:#0A1522; --heat-ink:#0A1522;
+  --amber:#FFB066; --amber-soft:rgba(255,176,102,.16); --danger:#FF6B5E;
+  --bar-top:#8FAAD0; --bar-bot:#4A6A94;
+  --heat-lo:#15283F; --heat-hi:#7F9CC4;
+  --sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  --sh-lg:0 2px 4px rgba(0,0,0,.3),0 18px 44px rgba(0,0,0,.42);
+  --sh-xl:0 30px 80px rgba(0,0,0,.55);
+  --glow:rgba(127,156,196,.16);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:clamp(16px,4vw,32px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* fundo */
+.bgfx{position:absolute;inset:0 0 auto 0;height:980px;pointer-events:none;z-index:0;
+  background:radial-gradient(900px 520px at 78% 8%,var(--glow),transparent 70%),radial-gradient(700px 420px at 8% 0%,var(--glow),transparent 70%)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;text-decoration:none;font-size:17px;white-space:nowrap}
+.logo-mark{width:28px;height:28px;border-radius:9px;background:var(--ink);display:grid;place-items:center}
+.logo-mark i{display:block;width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--ink-2);padding:8px 12px;border-radius:999px;transition:background .2s}
+.nav-links a:hover{background:var(--surface)}
+.nav-r{display:flex;gap:8px;align-items:center}
+.icon-btn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:18px;height:18px}
+@media (max-width:900px){.nav-links{display:none}.nav-r{margin-left:auto}}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:translate .25s var(--ez),box-shadow .25s,background .2s}
+.btn-pri{background:var(--ink);color:var(--bg);box-shadow:var(--sh)}
+.btn-pri:hover{translate:0 -2px;box-shadow:var(--sh-lg)}
+.btn-sec{background:var(--surface);border-color:var(--line-2);color:var(--ink)}
+.btn-sec:hover{translate:0 -2px;box-shadow:var(--sh)}
+.btn-sm{min-height:38px;padding:0 16px;font-size:14px}
+.btn-accent{background:var(--accent-ink);color:var(--on-accent)}
+
+/* tipografia */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--accent)}
+h1,h2,h3{letter-spacing:-.03em;line-height:1.08;margin:0;font-weight:800}
+h1{font-size:clamp(36px,4.6vw,58px);text-wrap:balance}
+h2{font-size:clamp(28px,3.7vw,46px)}
+h3{font-size:clamp(20px,2vw,24px);letter-spacing:-.02em;line-height:1.2}
+.lead{font-size:clamp(17px,1.5vw,19px);color:var(--ink-2);line-height:1.6}
+.muted{color:var(--muted)}
+section{position:relative;z-index:1}
+.sec{padding:clamp(72px,10vw,128px) 0}
+.sec-head{max-width:760px;margin-bottom:clamp(36px,5vw,56px)}
+.sec-head h2{margin-top:14px}
+.sec-head p{margin:18px 0 0}
+
+/* vidro e cards */
+.glass{background:var(--surface);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.card{position:relative;transition:translate .35s var(--ez),scale .35s var(--ez),box-shadow .35s var(--ez)}
+@media (hover:hover){.card:hover{translate:0 -4px;scale:1.015;box-shadow:var(--sh-lg);z-index:3}}
+
+/* revelação: só esconde quando o JS está ativo e o bloco ainda não entrou */
+.st{transition:opacity .8s var(--ez),transform .8s var(--ez);transition-delay:calc(var(--i,0) * 120ms)}
+.js .rv:not(.in) .st{opacity:0;transform:translateY(18px)}
+
+/* hero */
+.hero{padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,96px)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.08fr;gap:clamp(32px,5vw,64px);align-items:center}
+.hero h1{margin:18px 0 0}
+.hero .lead{margin:22px 0 0;max-width:560px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.apoio{margin:16px 0 0;font-size:14px;color:var(--muted)}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}}
+
+/* mockup 3D */
+.stage{perspective:1600px;perspective-origin:50% 40%}
+.mock{position:relative;transform-style:preserve-3d;will-change:transform}
+.mock-card{position:relative;border-radius:28px;padding:18px;transform-style:preserve-3d;border:1px solid var(--line-2);box-shadow:var(--sh-xl)}
+.mock-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--surface);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);z-index:-1}
+.mock-shadow{position:absolute;left:8%;right:8%;bottom:-28px;height:60px;border-radius:50%;background:var(--ink);opacity:.18;filter:blur(30px);transform:translateZ(-60px)}
+@media (hover:hover) and (pointer:fine) and (min-width:961px) and (prefers-reduced-motion:no-preference){
+  .mock{transform:rotateX(6deg) rotateY(-9deg)}
+  .layer{transform:translateZ(var(--z,24px))}
+}
+.mock-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:2px 4px 14px}
+.mock-title{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mock-title b{color:var(--ink);font-size:14px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#2FA36B;box-shadow:0 0 0 3px rgba(47,163,107,.18)}
+.tag-demo{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:var(--mist);color:var(--ink-2);border:1px dashed var(--line-2)}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--mist);gap:2px;margin:0 4px 12px}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-solid);color:var(--ink);box-shadow:var(--sh)}
+
+.leitura{position:relative;border-radius:20px;padding:16px 18px;background:var(--surface-solid);border:1px solid var(--line);box-shadow:var(--sh)}
+.leitura::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 3px 3px 0;background:var(--accent)}
+.lt-lab{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.leitura p{margin:8px 0 12px;font-size:15px;line-height:1.55;font-weight:500;min-height:4.65em}
+.typing::after{content:"";display:inline-block;width:2px;height:1em;margin-left:2px;vertical-align:-2px;background:var(--accent);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.lt-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.who{font-size:13px;color:var(--ink-2)}
+.who b{color:var(--ink)}
+.send{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:translate .25s var(--ez),box-shadow .25s}
+.send:hover{translate:0 -1px;box-shadow:var(--sh)}
+.send.done{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.kpi{border-radius:18px;padding:14px;background:var(--surface-2);border:1px solid var(--line);min-width:0}
+.kpi-lab{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-val{font-size:clamp(18px,2vw,23px);font-weight:800;letter-spacing:-.03em;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi-sub{font-size:11.5px;color:var(--ink-2);margin-top:1px}
+.kpi svg{display:block;width:100%;height:40px;margin-top:8px;overflow:visible}
+@media (max-width:520px){.kpi-lab{white-space:normal}.kpis{grid-template-columns:1fr 1fr}.kpis .kpi:first-child{grid-column:1/-1}}
+
+.radar{margin-top:12px;border-radius:18px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line)}
+.radar-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.pulse{position:relative;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.5);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+.radar ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.radar li{display:flex;align-items:center;gap:10px;font-size:13px;padding:6px 0;border-top:1px solid var(--line)}
+.radar li:first-child{border-top:0}
+.dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.dot.red{background:var(--danger)}
+.radar li span.t{flex:1;min-width:0}
+.do{flex:none;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--mist);color:var(--ink-2);white-space:nowrap}
+.mock-note{font-size:12.5px;color:var(--muted);text-align:center;margin:26px 0 0}
+
+/* gráficos */
+.bar{transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.2s var(--ez);transition-delay:calc(var(--i,0) * 120ms)}
+.js .rv:not(.in) .bar{transform:scaleY(0)}
+.hbar{transform-origin:0 50%;transition:transform 1.2s var(--ez);transition-delay:calc(var(--i,0) * 120ms)}
+.js .rv:not(.in) .hbar{transform:scaleX(0)}
+.draw{stroke-dasharray:1 1;stroke-dashoffset:0;transition:stroke-dashoffset 1.6s var(--ez) .1s}
+.js .rv:not(.in) .draw{stroke-dashoffset:1}
+.donut-g{transform-box:fill-box;transform-origin:50% 50%;transform:rotate(-90deg);transition:transform 1.4s var(--ez)}
+.donut-arc{transition:stroke-dasharray 1.4s var(--ez)}
+.js .rv:not(.in) .donut-g{transform:rotate(-360deg)}
+.js .rv:not(.in) .donut-arc{stroke-dasharray:0 100!important}
+
+/* problema */
+.prob{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start}
+.prob-text p{margin:0 0 16px;color:var(--ink-2);font-size:17px}
+.stack{display:grid;gap:14px}
+.tab{padding:20px 22px;border-radius:20px}
+.tab:nth-child(1){rotate:-1.6deg}
+.tab:nth-child(2){rotate:1.2deg;margin-left:clamp(0px,3vw,28px)}
+.tab:nth-child(3){rotate:-.6deg;margin-left:clamp(0px,1.5vw,12px)}
+.js .rv:not(.in) .tab.st{transform:translateY(34px) rotate(-5deg)}
+.tab b{display:block;font-size:15px}
+.tab q{display:block;margin-top:6px;color:var(--ink-2);font-size:15px;quotes:"“" "”"}
+.tab-n{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted)}
+.merge{margin-top:clamp(40px,6vw,64px);padding:clamp(22px,3vw,32px);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.pills{display:grid;grid-template-columns:repeat(2,auto);gap:8px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;background:var(--surface-solid);border:1px solid var(--line);font-size:13px;font-weight:700;box-shadow:var(--sh);transition:transform 1.2s var(--ez);transition-delay:calc(var(--i,0) * 120ms)}
+.pill svg{width:16px;height:16px;color:var(--ink-2)}
+.js .rv:not(.in) .pill{transform:translate(var(--x),var(--y)) rotate(var(--r))}
+@media (max-width:560px){.js .rv:not(.in) .pill{transform:translate(calc(var(--x) * .4),var(--y)) rotate(var(--r))}}
+.merge p{margin:0;font-size:clamp(18px,2vw,22px);font-weight:700;letter-spacing:-.02em}
+.merge p em{font-style:normal;color:var(--accent-ink)}
+@media (max-width:860px){.prob{grid-template-columns:1fr}.merge{grid-template-columns:1fr}}
+
+/* como funciona */
+.steps{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.path{position:absolute;left:calc(16.66% );right:calc(16.66%);top:30px;height:2px;background:linear-gradient(90deg,var(--ink-2),var(--accent));transform-origin:0 50%;transition:transform 1.6s var(--ez) .2s;border-radius:2px;opacity:.5}
+.js .rv:not(.in) .path{transform:scaleX(0)}
+.step{padding:22px;display:flex;flex-direction:column;gap:12px}
+.step-n{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:800;background:var(--ink);color:var(--bg);position:relative;z-index:1;box-shadow:var(--sh)}
+.step:nth-child(4) .step-n{background:var(--accent-ink);color:var(--on-accent)}
+.step p{margin:0;color:var(--ink-2);font-size:15px}
+.viz{margin-top:auto;padding-top:8px}
+.vbox{border-radius:14px;background:var(--surface-2);border:1px solid var(--line);padding:12px}
+.conn{display:flex;flex-wrap:wrap;gap:6px}
+.conn span{font-size:12px;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--surface-solid);border:1px solid var(--line)}
+.flow{display:grid;grid-template-columns:auto 1fr auto;gap:6px 8px;align-items:center}
+.flow .src{font-size:12px;font-weight:700;padding:6px 10px;border-radius:10px;background:var(--surface-solid);border:1px solid var(--line);text-align:center}
+.track{position:relative;height:2px;background:var(--line-2);border-radius:2px;overflow:visible}
+.track i{position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:flow 2.4s linear infinite}
+.track:nth-of-type(2) i{animation-delay:-.8s}
+.flow .hub{grid-column:3;grid-row:1/4;font-size:12px;font-weight:800;padding:12px 10px;border-radius:12px;background:var(--ink);color:var(--bg);text-align:center;line-height:1.2}
+@keyframes flow{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+.mini-lt{font-size:13px;line-height:1.45}
+.mini-lt .lt-lab{font-size:10px}
+.mini-lt p{margin:6px 0 10px;font-weight:600}
+.foot-note{margin-top:28px;font-size:14px;color:var(--muted);max-width:760px}
+@media (max-width:860px){.steps{grid-template-columns:1fr}.path{left:43px;right:auto;top:30px;bottom:30px;width:2px;height:auto;transform-origin:50% 0;background:linear-gradient(180deg,var(--ink-2),var(--accent))}.js .rv:not(.in) .path{transform:scaleY(0)}}
+
+/* perguntas */
+.q{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:center;padding:clamp(40px,6vw,72px) 0;border-top:1px solid var(--line)}
+.q:nth-of-type(even) .q-viz{order:-1}
+.q h3{font-size:clamp(24px,2.8vw,34px);letter-spacing:-.03em;margin:12px 0 0}
+.q-text>p{color:var(--ink-2);margin:16px 0 0}
+.q-ex{margin-top:22px;padding:14px 16px 14px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);position:relative;font-size:15px}
+.q-ex::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+.q-ex .lt-lab{font-size:10.5px}
+.q-ex p{margin:6px 0 0;font-weight:600}
+.q-viz{padding:clamp(18px,2.4vw,28px)}
+.viz-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.viz-h b{font-size:15px}
+.viz-h span{font-size:12.5px;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.badge.neutral{background:var(--mist);color:var(--ink-2)}
+@media (max-width:860px){.q{grid-template-columns:1fr}.q:nth-of-type(even) .q-viz{order:0}}
+
+/* DRE cascata */
+.wf{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1.2vw,14px);height:230px;align-items:end;padding-top:24px}
+.wf-col{position:relative;height:100%}
+.wf-bar{position:absolute;left:0;right:0;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,var(--bar-top),var(--bar-bot));box-shadow:0 6px 14px rgba(19,40,63,.14),inset 0 1px 0 rgba(255,255,255,.18)}
+.wf-bar.neg{background:linear-gradient(180deg,color-mix(in srgb,var(--amber) 70%,#fff 0%),color-mix(in srgb,var(--amber) 85%,var(--ink) 15%))}
+.wf-bar.res{background:linear-gradient(180deg,#ff7a45,var(--accent))}
+.wf-val{position:absolute;left:-6px;right:-6px;text-align:center;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;transform:translateY(-120%);white-space:nowrap}
+.wf-lab{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1.2vw,14px);margin-top:10px}
+.wf-lab span{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.3}
+.abc{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-2)}
+.abc-bar{flex:1;height:10px;border-radius:999px;background:var(--mist);overflow:hidden}
+.abc-bar i{display:block;height:100%;width:71%;border-radius:999px;background:linear-gradient(90deg,var(--bar-top),var(--bar-bot))}
+@media (max-width:480px){.wf-val{font-size:10px}.wf-lab span{font-size:10px}}
+
+/* funil */
+.funnel{display:grid;gap:12px}
+.fn-row{display:grid;gap:6px}
+.fn-top{display:flex;justify-content:space-between;font-size:13px}
+.fn-top b{font-variant-numeric:tabular-nums}
+.fn-track{height:30px;border-radius:10px;background:var(--mist);overflow:hidden}
+.fn-bar{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--bar-bot),var(--bar-top));box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.fn-row:last-child .fn-bar{background:linear-gradient(90deg,#ff7a45,var(--accent))}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.stat small{display:block;font-size:11.5px;color:var(--muted);line-height:1.3}
+.stat b{display:block;font-size:18px;letter-spacing:-.02em;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.camp{margin-top:14px;display:grid;gap:8px;font-size:13px}
+.camp div{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+@media (max-width:560px){.stats{grid-template-columns:1fr 1fr}}
+
+/* mapa de calor */
+.heat{display:grid;grid-template-columns:52px repeat(6,1fr);gap:6px}
+.heat .h{font-size:11.5px;color:var(--muted);text-align:center;font-weight:600}
+.heat .rl{font-size:11.5px;color:var(--muted);display:flex;align-items:center;font-weight:600}
+.cell{aspect-ratio:1.35;border-radius:10px;display:grid;place-items:center;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);background:color-mix(in srgb,var(--heat-hi) var(--p),var(--heat-lo));transition:transform .8s var(--ez),opacity .8s var(--ez);transition-delay:calc(var(--i,0) * 60ms)}
+.cell.hi{color:var(--heat-ink)}
+.cell.flag{outline:2px solid var(--accent);outline-offset:2px}
+.cell.na{background:transparent;border:1px dashed var(--line-2);color:var(--muted)}
+.js .rv:not(.in) .cell{transform:scale(.6);opacity:0}
+
+/* clientes */
+.cb{display:grid;gap:14px}
+.cb-row{display:grid;grid-template-columns:minmax(120px,190px) 1fr auto;gap:12px;align-items:center;font-size:13px}
+.cb-track{height:16px;border-radius:999px;background:var(--mist);overflow:hidden}
+.cb-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--bar-bot),var(--bar-top))}
+.cb-row.hot .cb-bar{background:linear-gradient(90deg,#ff7a45,var(--accent))}
+.cb-row b{font-variant-numeric:tabular-nums}
+.num-link{border:0;background:var(--accent-soft);color:var(--accent-ink);font-weight:800;padding:4px 10px;border-radius:999px;cursor:pointer;font-size:13px}
+.who-list{margin-top:16px;border-radius:16px;border:1px solid var(--line);background:var(--surface-solid);overflow:hidden}
+.who-list[hidden]{display:none}
+.wl-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;flex-wrap:wrap}
+.who-list ul{list-style:none;margin:0;padding:0}
+.who-list li{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;font-size:13px;border-top:1px solid var(--line)}
+.who-list li:first-child{border-top:0}
+.who-list li span{color:var(--muted)}
+.cb-hint{font-size:12.5px;color:var(--muted);margin-top:14px}
+@media (max-width:480px){.cb-row{grid-template-columns:1fr auto}.cb-track{grid-column:1/-1;order:3}}
+
+/* radar */
+.rlist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rlist li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:var(--surface-solid);border:1px solid var(--line);font-size:14.5px}
+.rlist li .t{flex:1;min-width:0}
+.rlist li .t small{display:block;color:var(--muted);font-size:12.5px}
+.rlist .dot{width:10px;height:10px;box-shadow:0 0 0 4px var(--amber-soft)}
+.rlist .dot.red{box-shadow:0 0 0 4px var(--accent-soft)}
+.r-foot{display:flex;justify-content:space-between;margin-top:14px;font-size:12.5px;color:var(--muted);gap:10px;flex-wrap:wrap}
+
+/* meu dia */
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;perspective:1400px}
+.day{padding:22px;border-radius:var(--r)}
+.days .st{transition:opacity .9s var(--ez),transform 1s var(--ez);transition-delay:calc(var(--i,0) * 120ms)}
+@media (min-width:861px) and (prefers-reduced-motion:no-preference){
+  .day:nth-child(1){transform:rotateY(7deg)}
+  .day:nth-child(3){transform:rotateY(-7deg)}
+  .js .rv:not(.in) .day.st{transform:translateX(60px) rotateY(-24deg)}
+}
+.day-h{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.av{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-weight:800;background:var(--mist);color:var(--ink-2)}
+.day-h b{display:block;font-size:16px}
+.day-h small{color:var(--muted);font-size:12.5px}
+.drow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.drow b{font-variant-numeric:tabular-nums}
+.drow.hl b{color:var(--accent-ink)}
+.meter{height:8px;border-radius:999px;background:var(--mist);overflow:hidden;margin-top:12px}
+.meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--bar-bot),var(--bar-top))}
+.meter-l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+.weeks{display:flex;gap:6px;margin-top:12px}
+.weeks i{flex:1;height:8px;border-radius:999px;background:var(--mist)}
+.weeks i.ok{background:var(--accent)}
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.extra{padding:22px}
+.extra p{margin:8px 0 0;color:var(--ink-2);font-size:15px}
+@media (max-width:860px){
+  .days{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(84%,340px);overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 16px 18px;margin-inline:calc(-1 * clamp(16px,4vw,32px));scroll-padding-inline:16px;scrollbar-width:none}
+  .days::-webkit-scrollbar{display:none}
+  .day{scroll-snap-align:start}
+  .extras{grid-template-columns:1fr}
+}
+
+/* confiança */
+.trust{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,48px);align-items:start}
+.tlist{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.titem{padding:20px}
+.titem .n{font-size:12px;font-weight:800;color:var(--muted)}
+.titem b{display:block;margin-top:6px;font-size:16px;letter-spacing:-.01em}
+.titem p{margin:6px 0 0;font-size:14.5px;color:var(--ink-2)}
+.demo{padding:22px;display:grid;gap:14px}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--amber-soft);border:1px solid color-mix(in srgb,var(--amber) 40%,transparent);font-size:13.5px}
+.alert svg{flex:none;width:18px;height:18px;color:var(--amber);margin-top:1px}
+.ind{padding:16px;border-radius:16px;background:var(--surface-solid);border:1px solid var(--line)}
+.ind-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ind-h small{color:var(--muted);font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:8px}
+.ibtn{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);font-size:12px;font-weight:800;font-style:italic;font-family:Georgia,serif;cursor:pointer;display:grid;place-items:center;padding:0}
+.ibtn[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ind-v{font-size:30px;font-weight:800;letter-spacing:-.03em;margin-top:4px}
+.ipop{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--mist);font-size:13.5px;line-height:1.5}
+.ipop[hidden]{display:none}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.roles span{font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:999px;background:var(--surface-solid);border:1px solid var(--line)}
+.roles span:first-child{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media (max-width:960px){.trust{grid-template-columns:1fr}}
+@media (max-width:560px){.tlist{grid-template-columns:1fr}}
+
+/* para quem */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line-2);background:var(--surface);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,translate .25s var(--ez)}
+.chip:hover{translate:0 -2px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ex{margin-top:28px;padding:clamp(20px,3vw,30px);display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.ex-emp{display:flex;align-items:center;gap:12px}
+.ex-emp .av{width:52px;height:52px;border-radius:16px;font-size:18px;background:var(--ink);color:var(--bg)}
+.ex-emp b{display:block;font-size:17px}
+.ex-emp small{color:var(--muted);font-size:12.5px}
+.ex .leitura{box-shadow:none}
+.ex .leitura p{min-height:0}
+.ex-link{display:inline-block;margin-top:12px;font-size:13px;font-weight:700;color:var(--ink-2);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:760px){.ex{grid-template-columns:1fr}}
+
+/* começar */
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative}
+.tl-item{padding:22px}
+.tl-item .step-n{margin-bottom:14px}
+.tl-item p{margin:8px 0 0;color:var(--ink-2);font-size:15px}
+.fill{background:var(--accent-soft);color:var(--accent-ink);border-radius:6px;padding:0 5px;font-weight:700;white-space:nowrap}
+.after{margin:22px 0 0;color:var(--ink-2)}
+.price{margin-top:28px;padding:clamp(22px,3vw,34px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.price h3{font-size:clamp(22px,2.4vw,28px)}
+.price p{margin:6px 0 0;color:var(--ink-2)}
+@media (max-width:860px){.tl{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:820px;display:grid;gap:10px}
+.faq details{border-radius:18px;padding:0 20px;transition:box-shadow .25s}
+.faq summary{list-style:none;cursor:pointer;padding:18px 0;font-weight:700;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:12px;height:12px;background:linear-gradient(var(--ink),var(--ink)) center/12px 2px no-repeat,linear-gradient(var(--ink),var(--ink)) center/2px 12px no-repeat;transition:transform .25s var(--ez)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 18px;color:var(--ink-2)}
+
+/* final */
+.final{padding:clamp(36px,6vw,72px);text-align:center;border-radius:32px;position:relative;overflow:hidden}
+.final::after{content:"";position:absolute;inset:auto -10% -60% -10%;height:90%;background:radial-gradient(closest-side,var(--accent-soft),transparent);pointer-events:none}
+.final h2{max-width:760px;margin:14px auto 0}
+.final>p{max-width:620px;margin:18px auto 0;color:var(--ink-2);font-size:17px}
+.mail{position:relative;z-index:1;margin:30px auto 0;display:inline-flex;align-items:center;gap:10px;padding:8px 8px 8px 20px;border-radius:999px;background:var(--surface-solid);border:1px solid var(--line-2);box-shadow:var(--sh);max-width:100%;flex-wrap:wrap;justify-content:center}
+.mail code{font-family:inherit;font-weight:700;font-size:clamp(14px,2vw,17px);user-select:all;-webkit-user-select:all;word-break:break-all}
+
+@media (max-width:480px){.mail{border-radius:22px;padding:14px 14px 12px;flex-direction:column;gap:10px}}
+.zap-ico{display:grid;place-items:center;width:28px;height:28px;color:#1FA855}
+.zap-ico svg{width:22px;height:22px}
+.copied{position:relative;z-index:1;display:block;min-height:22px;margin-top:10px;font-size:13px;font-weight:700;color:var(--accent-ink)}
+.pend{position:relative;z-index:1;display:block;font-size:12px;color:var(--muted);margin-top:4px}
+footer{padding:36px 0 48px;color:var(--muted);font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<script>
+(function(){try{
+  var r=document.documentElement;
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    r.classList.add('js');
+    setTimeout(function(){ if(!window.__nbiOk) r.classList.remove('js'); },2500);
+  }
+}catch(e){}})();
+</script>
+
+<div class="bgfx" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#topo" aria-label="BI Gestão Sem Caos, início"><span class="logo-mark"><i></i></span>BI Gestão Sem Caos</a>
+    <nav class="nav-links" aria-label="Seções">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#perguntas">Perguntas de dono</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#confianca">Confiança</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <div class="nav-r">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Alternar tema claro e escuro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a class="btn btn-pri btn-sm" href="#contato">Conversar</a>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">BI Gestão Sem Caos · Inteligência de gestão</span>
+      <h1>Seu negócio já tem as respostas. Elas só estão espalhadas.</h1>
+      <p class="lead">O BI Gestão Sem Caos conecta os sistemas que você já usa — agenda, financeiro, vendas, anúncios — e todo dia te entrega uma leitura simples: o que aconteceu, por quê, quanto isso vale em reais e quem da equipe resolve.</p>
+      <div class="cta-row">
+        <a class="btn btn-pri" href="#contato">Quero ver no meu negócio</a>
+        <a class="btn btn-sec" href="#como-funciona">Ver como funciona ↓</a>
+      </div>
+      <p class="apoio">Sem trocar de sistema. Funciona no computador e no celular.</p>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="mock rv" id="mock">
+        <div class="mock-shadow" aria-hidden="true"></div>
+        <div class="mock-card">
+          <div class="mock-top layer" style="--z:10px">
+            <div class="mock-title"><span class="live-dot" aria-hidden="true"></span><b data-h="emp">Clínica Aurora</b> · Hoje · atualizado há 12 min</div>
+            <span class="tag-demo">Dados fictícios de demonstração</span>
+          </div>
+          <div class="seg layer" style="--z:10px" role="group" aria-label="Empresa de exemplo">
+            <button type="button" data-hero="aurora" aria-pressed="true">Clínica</button>
+            <button type="button" data-hero="vertice" aria-pressed="false">Varejo</button>
+          </div>
+
+          <div class="leitura layer st" style="--z:46px">
+            <div class="lt-lab"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.6 6.9L22 10l-5.6 4.6L18 22l-6-3.8L6 22l1.6-7.4L2 10l7.4-1.1z"/></svg>Leitura do dia</div>
+            <p id="heroLeitura" data-type>O faturamento do mês está 11% abaixo da meta. O principal motivo: 38 clientes passaram da data de retorno e ainda não voltaram. Isso vale cerca de R$ 24.700. Quem faz: Recepção — Marina.</p>
+            <div class="lt-foot">
+              <span class="who">Fazer · <b data-h="who">Recepção — Marina</b></span>
+              <button class="send" type="button" id="heroSend" data-label="Enviar para Marina">Enviar para Marina</button>
+            </div>
+          </div>
+
+          <div class="kpis layer" style="--z:28px">
+            <div class="kpi st">
+              <div class="kpi-lab" data-h="k1l">Faturamento do mês</div>
+              <div class="kpi-val" data-count="186400" data-fmt="brl" data-h="k1v">R$ 186.400</div>
+              <div class="kpi-sub" data-h="k1s">89% da meta</div>
+              <svg viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
+                <line x1="0" y1="6" x2="120" y2="6" stroke="var(--line-2)" stroke-dasharray="3 3"/>
+                <path class="draw" pathLength="1" d="M0 36 C 14 34, 22 30, 34 28 S 56 22, 68 20 S 92 14, 104 12 S 116 10, 120 9" fill="none" stroke="var(--ink-2)" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="kpi st">
+              <div class="kpi-lab" data-h="k2l">Ocupação da agenda</div>
+              <div class="kpi-val" data-count="78" data-fmt="pct" data-h="k2v">78%</div>
+              <div class="kpi-sub" data-h="k2s">média da semana</div>
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <g transform="translate(40 0)"><svg x="0" y="0" width="40" height="40" viewBox="0 0 40 40" overflow="visible">
+                  <circle cx="20" cy="20" r="15" fill="none" stroke="var(--mist)" stroke-width="6"/>
+                  <g class="donut-g"><circle class="donut-arc" id="heroDonut" cx="20" cy="20" r="15" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" pathLength="100" style="stroke-dasharray:78 100"/></g>
+                </svg></g>
+              </svg>
+            </div>
+            <div class="kpi st">
+              <div class="kpi-lab" data-h="k3l">Retorno do marketing</div>
+              <div class="kpi-val" data-count="5.2" data-fmt="x" data-h="k3v">5,2x</div>
+              <div class="kpi-sub" data-h="k3s">por real investido</div>
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--bar-top)"/><stop offset="1" stop-color="var(--bar-bot)"/></linearGradient></defs>
+                <rect class="bar" style="--i:0" x="4" y="20" width="14" height="20" rx="4" fill="url(#gb)"/>
+                <rect class="bar" style="--i:1" x="24" y="16" width="14" height="24" rx="4" fill="url(#gb)"/>
+                <rect class="bar" style="--i:2" x="44" y="18" width="14" height="22" rx="4" fill="url(#gb)"/>
+                <rect class="bar" style="--i:3" x="64" y="11" width="14" height="29" rx="4" fill="url(#gb)"/>
+                <rect class="bar" style="--i:4" x="84" y="8" width="14" height="32" rx="4" fill="url(#gb)"/>
+                <rect class="bar" style="--i:5" x="104" y="4" width="14" height="36" rx="4" fill="var(--accent)"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="radar layer st" style="--z:18px">
+            <div class="radar-h"><span class="pulse" aria-hidden="true"></span>Radar · 3 pontos fora do normal hoje</div>
+            <ul id="heroRadar">
+              <li><span class="dot" aria-hidden="true"></span><span class="t">Comparecimento caiu para 74% (normal: 85%)</span><span class="do">Fazer · Recepção</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span class="t">6 orçamentos vencem em 2 dias</span><span class="do">Fazer · Comercial</span></li>
+              <li><span class="dot red" aria-hidden="true"></span><span class="t">Fonte “Anúncios” sem atualizar desde ontem</span><span class="do">Fazer · Gestão</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="mock-note" id="heroNote">Painel de demonstração com dados fictícios da Clínica Aurora, empresa de exemplo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="sec" id="problema" style="padding-top:clamp(40px,6vw,72px)">
+  <div class="wrap">
+    <div class="prob rv">
+      <div class="prob-text">
+        <span class="eyebrow st">O problema</span>
+        <h2 class="st" style="margin:14px 0 22px">Você tem dados. O que falta é tempo para juntar tudo.</h2>
+        <p class="st">A agenda está num sistema. As vendas, em outro. O financeiro, numa planilha. Os anúncios, no painel do Meta. Cada um mostra um pedaço — e ninguém mostra o que fazer.</p>
+        <p class="st">No fim, a decisão sai no achismo, o relatório chega quando o mês já acabou e a equipe trabalha sem uma fila clara do que é prioridade.</p>
+      </div>
+      <div class="stack">
+        <div class="tab glass card st"><span class="tab-n">01</span><b>Dados espalhados</b><q>Abro quatro sistemas para responder uma pergunta simples.</q></div>
+        <div class="tab glass card st"><span class="tab-n">02</span><b>Decisão no escuro</b><q>Sei que o mês está fraco, mas não sei por quê.</q></div>
+        <div class="tab glass card st"><span class="tab-n">03</span><b>Equipe sem fila</b><q>Cada um faz o que acha mais urgente.</q></div>
+        <p class="muted st" style="font-size:12.5px;margin:4px 0 0">Situações de exemplo, não depoimentos.</p>
+      </div>
+    </div>
+
+    <div class="merge glass rv">
+      <div class="pills" aria-label="Sistemas: Agenda, Vendas, Financeiro, Anúncios">
+        <span class="pill" style="--x:-40px;--y:-34px;--r:-10deg;--i:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agenda</span>
+        <span class="pill" style="--x:46px;--y:-28px;--r:9deg;--i:1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Vendas</span>
+        <span class="pill" style="--x:-34px;--y:30px;--r:7deg;--i:2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M7 15h4"/></svg>Financeiro</span>
+        <span class="pill" style="--x:40px;--y:36px;--r:-8deg;--i:3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1zM17 9a4 4 0 0 1 0 6"/></svg>Anúncios</span>
+      </div>
+      <p>O BI Gestão Sem Caos junta esses pedaços e transforma em <em>uma lista do que fazer</em>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="sec" id="como-funciona">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">Como funciona</span>
+      <h2 class="st">Três passos. Nenhum sistema novo para sua equipe aprender a preencher.</h2>
+    </div>
+    <div class="steps rv">
+      <div class="path" aria-hidden="true"></div>
+      <article class="step glass card st">
+        <div class="step-n">1</div>
+        <h3>Conecta</h3>
+        <p>Ligamos o BI Gestão Sem Caos aos sistemas que você já usa: agenda, CRM, financeiro, anúncios. Sua equipe continua trabalhando onde já trabalha.</p>
+        <div class="viz"><div class="vbox conn"><span>GestãoDS</span><span>Kommo</span><span>Meta Ads</span><span>Financeiro</span></div></div>
+      </article>
+      <article class="step glass card st">
+        <div class="step-n">2</div>
+        <h3>Lê e cruza</h3>
+        <p>Ao longo do dia, o BI busca os dados sozinho e cruza o que nenhum sistema cruza: qual anúncio virou venda, qual horário ficou vazio, qual cliente devia ter voltado.</p>
+        <div class="viz"><div class="vbox flow" aria-label="Agenda, Vendas e Anúncios fluindo para o BI">
+          <span class="src">Agenda</span><span class="track"><i></i></span>
+          <span class="hub">BI</span>
+          <span class="src">Vendas</span><span class="track"><i></i></span>
+          <span class="src">Anúncios</span><span class="track"><i></i></span>
+        </div></div>
+      </article>
+      <article class="step glass card st">
+        <div class="step-n">3</div>
+        <h3>Diz o que fazer e quem faz</h3>
+        <p>No topo de cada página, uma leitura em português: o que aconteceu, por quê, quanto vale em reais e quem resolve. Um toque e vira lembrete com responsável.</p>
+        <div class="viz"><div class="leitura mini-lt">
+          <div class="lt-lab">Leitura</div>
+          <p>Quinta à tarde tem a menor ocupação da semana (62%).</p>
+          <div class="lt-foot"><span class="who">Fazer · <b>Recepção</b></span><button class="send" type="button" data-label="Enviar para">Enviar para</button></div>
+        </div></div>
+      </article>
+    </div>
+    <p class="foot-note">Conexões prontas: GestãoDS (agenda, pacientes, orçamentos e faturamento), Kommo (leads e funil de vendas) e Meta Ads (anúncios), além de outras fontes por conector. Não tem conector pronto para o seu sistema? Avaliamos no diagnóstico.</p>
+  </div>
+</section>
+
+<!-- PERGUNTAS DE DONO -->
+<section class="sec" id="perguntas" style="padding-bottom:clamp(40px,6vw,72px)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">Perguntas de dono</span>
+      <h2 class="st">As perguntas que você faz toda semana, respondidas antes de você perguntar.</h2>
+    </div>
+
+    <!-- Dinheiro -->
+    <div class="q rv">
+      <div class="q-text">
+        <span class="eyebrow st">Dinheiro</span>
+        <h3 class="st">“Estou ganhando dinheiro de verdade?”</h3>
+        <p class="st">Faturamento, custos e o que sobra, num DRE que qualquer pessoa entende. Margem por serviço, fluxo de caixa dos próximos dias e a curva ABC que mostra quais serviços sustentam o negócio.</p>
+        <div class="q-ex st"><div class="lt-lab">Leitura de exemplo</div><p>A margem caiu 3 pontos em relação ao mês passado. O custo de insumos subiu mais que o preço. Vale revisar os 4 serviços da curva C.</p></div>
+      </div>
+      <div class="q-viz glass card st">
+        <div class="viz-h"><b>DRE do mês · Clínica Aurora</b><span class="badge">Margem 19,2% · −3 pontos</span></div>
+        <div class="wf" role="img" aria-label="Cascata do DRE: receita R$ 186.400, custos variáveis menos R$ 52.200, margem de contribuição R$ 134.200, despesas fixas menos R$ 98.500, resultado R$ 35.700">
+          <div class="wf-col"><div class="wf-bar bar" style="--i:0;bottom:0;height:100%"><span class="wf-val">R$ 186,4 mil</span></div></div>
+          <div class="wf-col"><div class="wf-bar neg bar" style="--i:1;bottom:72%;height:28%"><span class="wf-val">−R$ 52,2 mil</span></div></div>
+          <div class="wf-col"><div class="wf-bar bar" style="--i:2;bottom:0;height:72%"><span class="wf-val">R$ 134,2 mil</span></div></div>
+          <div class="wf-col"><div class="wf-bar neg bar" style="--i:3;bottom:19.2%;height:52.8%"><span class="wf-val">−R$ 98,5 mil</span></div></div>
+          <div class="wf-col"><div class="wf-bar res bar" style="--i:4;bottom:0;height:19.2%"><span class="wf-val">R$ 35,7 mil</span></div></div>
+        </div>
+        <div class="wf-lab" aria-hidden="true"><span>Receita</span><span>Custos variáveis</span><span>Margem (72%)</span><span>Despesas fixas</span><span>Resultado (19,2%)</span></div>
+        <div class="abc"><span>Curva ABC</span><div class="abc-bar"><i class="hbar"></i></div><span><b>20%</b> dos serviços = <b>71%</b> da receita</span></div>
+      </div>
+    </div>
+
+    <!-- Marketing -->
+    <div class="q rv">
+      <div class="q-text">
+        <span class="eyebrow st">Marketing</span>
+        <h3 class="st">“O anúncio está trazendo cliente ou só curtida?”</h3>
+        <p class="st">O BI Gestão Sem Caos liga o anúncio ao faturamento: quem clicou, quem virou cliente e quanto pagou. Você vê o custo por cliente, o retorno de cada real investido e quanto vale colocar de verba no próximo mês.</p>
+        <div class="q-ex st"><div class="lt-lab">Leitura de exemplo</div><p>A campanha “Avaliação gratuita” trouxe 41 dos 64 clientes novos com o menor custo. Recomendação: mover R$ 1.200 da campanha “Institucional” para ela.</p></div>
+      </div>
+      <div class="q-viz glass card st">
+        <div class="viz-h"><b>Do anúncio ao faturamento</b><span>mês atual</span></div>
+        <div class="funnel">
+          <div class="fn-row"><div class="fn-top"><span>Contatos</span><b data-count="412">412</b></div><div class="fn-track"><div class="fn-bar hbar" style="--i:0;width:100%"></div></div></div>
+          <div class="fn-row"><div class="fn-top"><span>Agendaram</span><b data-count="168">168</b></div><div class="fn-track"><div class="fn-bar hbar" style="--i:1;width:40.8%"></div></div></div>
+          <div class="fn-row"><div class="fn-top"><span>Compareceram</span><b data-count="121">121</b></div><div class="fn-track"><div class="fn-bar hbar" style="--i:2;width:29.4%"></div></div></div>
+          <div class="fn-row"><div class="fn-top"><span>Viraram clientes</span><b data-count="64">64</b></div><div class="fn-track"><div class="fn-bar hbar" style="--i:3;width:15.5%"></div></div></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><small>Investimento</small><b>R$ 8.000</b></div>
+          <div class="stat"><small>Custo por cliente</small><b>R$ 125</b></div>
+          <div class="stat"><small>Faturamento atribuído</small><b>R$ 41.600</b></div>
+          <div class="stat"><small>Retorno</small><b data-count="5.2" data-fmt="x">5,2x</b></div>
+        </div>
+        <div class="camp">
+          <div><span>Avaliação gratuita</span><span><b>41 clientes</b> · R$ 98 cada</span></div>
+          <div><span>Institucional</span><span><b>23 clientes</b> · R$ 173 cada</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agenda -->
+    <div class="q rv">
+      <div class="q-text">
+        <span class="eyebrow st">Agenda e capacidade</span>
+        <h3 class="st">“Onde estou perdendo horário?”</h3>
+        <p class="st">Ocupação por profissional, por dia e por turno. Os furos — faltas e cancelamentos — com o valor que deixaram de entrar. E onde sobra horário para a equipe preencher antes que o dia chegue.</p>
+        <p class="st">Na agenda dá para arrastar um atendimento para outro horário e a mudança é gravada no sistema de origem.</p>
+        <div class="q-ex st"><div class="lt-lab">Leitura de exemplo</div><p>Quinta à tarde tem a menor ocupação da semana (62%). Há 9 faltas no mês, que somam R$ 5.850. Sugestão: confirmar na véspera os agendamentos de quinta.</p></div>
+      </div>
+      <div class="q-viz glass card st">
+        <div class="viz-h"><b>Ocupação por dia e turno</b><span>média 78%</span></div>
+        <div class="heat" id="heat" role="img" aria-label="Mapa de calor de ocupação. Manhã: seg 84, ter 88, qua 81, qui 79, sex 86, sáb 71 por cento. Tarde: seg 80, ter 82, qua 76, qui 62, sex 74, sáb sem atendimento."></div>
+        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat"><small>Ocupação média</small><b data-count="78" data-fmt="pct">78%</b></div>
+          <div class="stat"><small>Horários livres na semana</small><b data-count="46">46</b></div>
+          <div class="stat"><small>Faltas no mês</small><b>9 · R$ 5.850</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clientes -->
+    <div class="q rv">
+      <div class="q-text">
+        <span class="eyebrow st">Clientes que precisam voltar</span>
+        <h3 class="st">“Quem já devia ter voltado e não voltou?”</h3>
+        <p class="st">Cada serviço tem um tempo natural de retorno ou recompra. O BI Gestão Sem Caos avisa quem está no prazo, quem passou do prazo e quem sumiu há meses — com nome, telefone e quanto cada grupo vale.</p>
+        <p class="st">Toque em “38 clientes” para ver quem são e depois em “Enviar para Marina”: a lista vira lembrete com responsável e prazo.</p>
+        <div class="q-ex st"><div class="lt-lab">Leitura de exemplo</div><p>38 clientes passaram da data de retorno este mês. Valem cerca de R$ 24.700. Quem faz: Recepção.</p></div>
+      </div>
+      <div class="q-viz glass card st">
+        <div class="viz-h"><b>Retornos e recompra</b><span>experimente: toque no número</span></div>
+        <div class="cb">
+          <div class="cb-row"><span>Retorno nos próximos 30 dias</span><div class="cb-track"><div class="cb-bar hbar" style="--i:0;width:48.2%"></div></div><b>54</b></div>
+          <div class="cb-row hot"><span>Retorno vencido · R$ 24.700</span><div class="cb-track"><div class="cb-bar hbar" style="--i:1;width:33.9%"></div></div><button type="button" class="num-link" id="btn38" aria-expanded="false" aria-controls="lista38">38 clientes</button></div>
+          <div class="cb-row"><span>Inativos há mais de 6 meses</span><div class="cb-track"><div class="cb-bar hbar" style="--i:2;width:100%"></div></div><b>112</b></div>
+        </div>
+        <div class="who-list" id="lista38" hidden>
+          <div class="wl-h"><span>Quem são · 38 clientes</span><button class="send" type="button" data-label="Enviar para Marina">Enviar para Marina</button></div>
+          <ul>
+            <li>Ana P. <span>retorno venceu há 12 dias</span></li>
+            <li>Carlos M. <span>retorno venceu há 9 dias</span></li>
+            <li>Juliana R. <span>retorno venceu há 5 dias</span></li>
+            <li><span>+ 35 clientes</span><span>nomes fictícios</span></li>
+          </ul>
+        </div>
+        <p class="cb-hint">Demonstração: nada é enviado de verdade nesta página.</p>
+      </div>
+    </div>
+
+    <!-- Equipe / Radar -->
+    <div class="q rv">
+      <div class="q-text">
+        <span class="eyebrow st">Equipe</span>
+        <h3 class="st">“Minha equipe sabe o que é prioridade hoje?”</h3>
+        <p class="st">O Radar mostra só o que saiu do normal — gestão por exceção. Você não precisa olhar 40 números para achar os 3 que importam.</p>
+      </div>
+      <div class="q-viz glass card st">
+        <div class="viz-h"><b><span class="pulse" style="display:inline-block;margin-right:8px" aria-hidden="true"></span>Radar de hoje</b><span>3 de 40 indicadores fora do normal</span></div>
+        <ul class="rlist">
+          <li class="st"><span class="dot" aria-hidden="true"></span><span class="t">Comparecimento caiu para 74%<small>normal: 85%</small></span><span class="do">Fazer · Recepção</span></li>
+          <li class="st"><span class="dot" aria-hidden="true"></span><span class="t">6 orçamentos vencem em 2 dias<small>sem retorno do cliente</small></span><span class="do">Fazer · Comercial</span></li>
+          <li class="st"><span class="dot red" aria-hidden="true"></span><span class="t">Fonte “Anúncios” sem atualizar<small>desde ontem</small></span><span class="do">Fazer · Gestão</span></li>
+        </ul>
+        <div class="r-foot"><span>Âmbar: atenção · Vermelho: agir hoje</span><span>Clínica Aurora · fictício</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEU DIA -->
+<section class="sec" id="equipe">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">A equipe</span>
+      <h2 class="st">Cada pessoa abre o sistema e já sabe o que fazer.</h2>
+      <p class="lead st">O “Meu dia” muda conforme a função. A recepção vê quem confirmar amanhã e quem precisa voltar. O comercial vê a fila sem resposta e os orçamentos a vencer. A gestão vê o Radar e a meta. Todos com as mesmas métricas e a mesma inteligência, recortadas para o que cada um resolve.</p>
+    </div>
+    <div class="days rv" aria-label="Exemplos de Meu dia por função">
+      <article class="day glass card st">
+        <div class="day-h"><span class="av">M</span><div><b>Marina</b><small>Recepção · Meu dia</small></div></div>
+        <div class="drow"><span>Confirmar amanhã</span><b data-count="18">18</b></div>
+        <div class="drow hl"><span>Retornos vencidos</span><b data-count="38">38</b></div>
+        <div class="drow"><span>Meta da semana</span><b data-count="87" data-fmt="pct">87%</b></div>
+        <div class="meter"><i class="hbar" style="width:87%"></i></div>
+      </article>
+      <article class="day glass card st">
+        <div class="day-h"><span class="av">R</span><div><b>Rafael</b><small>Comercial · Meu dia</small></div></div>
+        <div class="drow hl"><span>Sem resposta</span><b data-count="11">11</b></div>
+        <div class="drow"><span>Orçamentos a vencer</span><b data-count="6">6</b></div>
+        <div class="drow"><span>Vendas no mês</span><b>R$ 52.300</b></div>
+        <div class="meter"><i class="hbar" style="width:87%"></i></div>
+        <div class="meter-l"><span>87% de R$ 60.000</span><span>faltam R$ 7.700</span></div>
+      </article>
+      <article class="day glass card st">
+        <div class="day-h"><span class="av" style="background:var(--ink);color:var(--bg)">G</span><div><b>Gestão</b><small>Visão geral · Meu dia</small></div></div>
+        <div class="drow hl"><span>Radar</span><b>3 alertas</b></div>
+        <div class="drow"><span>Faturamento</span><b>89% da meta</b></div>
+        <div class="drow"><span>Bônus da equipe</span><b>2 de 4 semanas</b></div>
+        <div class="weeks" aria-hidden="true"><i class="ok"></i><i class="ok"></i><i></i><i></i></div>
+      </article>
+    </div>
+    <div class="extras rv">
+      <div class="extra glass card st"><h3>Metas e bônus</h3><p>Cada colaborador acompanha a própria meta, quanto falta e o bônus da semana — sem planilha paralela, sem discussão no fim do mês.</p></div>
+      <div class="extra glass card st"><h3>Primeiro acesso guiado</h3><p>Um tutorial curto apresenta a tela. Em cada indicador, um “i” explica o que é aquele número.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIANÇA -->
+<section class="sec" id="confianca">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">Confiança</span>
+      <h2 class="st">Número que você pode defender numa reunião.</h2>
+    </div>
+    <div class="trust">
+      <div class="tlist rv">
+        <div class="titem glass card st"><span class="n">01</span><b>Cada número explica a conta</b><p>Toque no “i” e veja de onde vem, como é calculado e o que entra e o que não entra.</p></div>
+        <div class="titem glass card st"><span class="n">02</span><b>Aviso de fonte parada</b><p>Se algum sistema parar de mandar dados, o BI avisa no topo da página. Você nunca decide com número velho sem saber.</p></div>
+        <div class="titem glass card st"><span class="n">03</span><b>Acesso por papel</b><p>Cada pessoa vê só o que a função dela precisa. Dados de clientes tratados conforme a LGPD, com acesso controlado por você.</p></div>
+        <div class="titem glass card st"><span class="n">04</span><b>Atualização ao longo do dia</b><p>Os dados são buscados automaticamente, sem ninguém exportar planilha.</p></div>
+      </div>
+      <div class="demo glass rv">
+        <div class="alert st" role="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg><span>Fonte <b>Anúncios</b> sem atualizar desde ontem às 18h.</span></div>
+        <div class="ind st">
+          <div class="ind-h"><small>Ocupação da agenda <button class="ibtn" type="button" id="ibtn" aria-expanded="true" aria-controls="ipop" aria-label="O que é este número">i</button></small><span class="badge neutral">Clínica Aurora</span></div>
+          <div class="ind-v" data-count="78" data-fmt="pct">78%</div>
+          <div class="ipop" id="ipop">Ocupação = horas agendadas ÷ horas disponíveis na agenda. Não conta bloqueios nem feriados.</div>
+        </div>
+        <div class="st">
+          <div class="muted" style="font-size:12.5px;font-weight:600;margin-bottom:8px">Quem vê o quê</div>
+          <div class="roles"><span>Gestão</span><span>Recepção</span><span>Comercial</span><span>Financeiro</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section class="sec" id="para-quem">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">Para quem é</span>
+      <h2 class="st">Feito para empresa que atende, vende e precisa que o cliente volte.</h2>
+      <p class="lead st">Se o seu negócio tem agenda, equipe, vendas e cliente que precisa voltar, o BI Gestão Sem Caos fala a sua língua.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Segmentos">
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="true">Clínicas e consultórios</button>
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="false">Estética</button>
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="false">Odontologia</button>
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="false">Academias e estúdios</button>
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="false">Escolas e cursos</button>
+      <button class="chip" type="button" data-seg="vertice" aria-pressed="false">Varejo e lojas</button>
+      <button class="chip" type="button" data-seg="aurora" aria-pressed="false">Prestadores de serviço</button>
+    </div>
+    <div class="ex glass" aria-live="polite">
+      <div class="ex-emp"><span class="av" id="exAv">A</span><div><b id="exEmp">Clínica Aurora</b><small id="exNota">empresa de exemplo · fictícia</small></div></div>
+      <div>
+        <div class="leitura">
+          <div class="lt-lab">Leitura do dia</div>
+          <p id="exTxt">O faturamento do mês está 11% abaixo da meta. O principal motivo: 38 clientes passaram da data de retorno e ainda não voltaram. Isso vale cerca de R$ 24.700. Quem faz: Recepção — Marina.</p>
+        </div>
+        <button class="ex-link" type="button" id="exUp">Ver este exemplo no painel do topo ↑</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO COMEÇAR -->
+<section class="sec" id="comecar">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow st">Como começar</span>
+      <h2 class="st">Do primeiro papo à primeira leitura.</h2>
+    </div>
+    <div class="tl rv">
+      <div class="tl-item glass card st"><div class="step-n">1</div><h3>Diagnóstico</h3><p>Conversamos sobre o seu negócio, as perguntas que você quer responder e os sistemas que você usa.</p></div>
+      <div class="tl-item glass card st"><div class="step-n">2</div><h3>Conexão</h3><p>Ligamos as fontes de dados e ajustamos as regras do seu negócio: metas, prazos de retorno, funções da equipe.</p></div>
+      <div class="tl-item glass card st"><div class="step-n" style="background:var(--accent-ink);color:var(--on-accent)">3</div><h3>Primeira leitura</h3><p>Em <b>7 dias</b> você abre o painel e recebe a primeira leitura com o que fazer.</p></div>
+    </div>
+    <p class="after">Depois disso, o BI segue atualizando sozinho e a gente ajusta junto com você.</p>
+    <div class="price glass card">
+      <div><h3>Preço sob medida</h3><p>Depende de quantos sistemas, pessoas e unidades. Vamos conversar.</p></div>
+      <a class="btn btn-pri" href="#contato">Vamos conversar</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Dúvidas</span><h2>Perguntas frequentes</h2></div>
+    <div class="faq">
+      <details class="glass"><summary>Preciso trocar meu sistema?</summary><p>Não. O BI Gestão Sem Caos se conecta aos sistemas que você já usa e lê os dados de lá. Sua equipe continua trabalhando onde já trabalha.</p></details>
+      <details class="glass"><summary>E se o meu sistema não estiver na lista de conexões?</summary><p>Avaliamos no diagnóstico. Muitos sistemas oferecem uma forma de exportar ou conectar os dados; quando não for possível, explicamos as alternativas antes de começar.</p></details>
+      <details class="glass"><summary>Meus dados ficam seguros?</summary><p>O acesso é por papel: cada pessoa vê só o que a função dela precisa, e você decide quem entra. Os dados de clientes são tratados conforme a LGPD.</p></details>
+      <details class="glass"><summary>Funciona no celular?</summary><p>Sim. O painel, a leitura do dia e o “Meu dia” de cada pessoa funcionam no computador e no celular.</p></details>
+      <details class="glass"><summary>Quanto tempo leva para começar?</summary><p>Depende de quantos sistemas vamos conectar. Em geral, a primeira leitura sai em 7 dias depois do diagnóstico.</p></details>
+      <details class="glass"><summary>Posso personalizar?</summary><p>Sim. Metas, prazos de retorno de cada serviço, funções da equipe, regras de bônus e as páginas do painel são ajustados ao seu negócio.</p></details>
+      <details class="glass"><summary>Quem da minha equipe tem acesso?</summary><p>Quem você liberar. A gestão vê tudo; recepção, comercial e financeiro veem o que cabe à função de cada um.</p></details>
+      <details class="glass"><summary>Os números são atualizados com que frequência?</summary><p>Ao longo do dia, automaticamente. Se alguma fonte parar de mandar dados, o painel avisa no topo da página.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="sec" id="contato" style="padding-top:0">
+  <div class="wrap">
+    <div class="final glass">
+      <span class="eyebrow">Gestão Sem Caos</span>
+      <h2>Pare de juntar números. Comece a decidir.</h2>
+      <p>Conte quais sistemas você usa e o que mais quer saber sobre o seu negócio. A gente mostra como o BI responderia, com uma demonstração no seu caso.</p>
+      <div class="mail">
+        <span class="zap-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></span>
+        <code id="fone">(62) 99402-9664</code>
+        <a class="btn btn-accent btn-sm" href="https://wa.me/5562994029664?text=Ol%C3%A1!%20Quero%20conhecer%20o%20BI%20Gest%C3%A3o%20Sem%20Caos." target="_blank" rel="noopener">Conversar no WhatsApp</a>
+        <button class="btn btn-sec btn-sm" type="button" id="copyBtn">Copiar número</button>
+      </div>
+      <span class="copied" id="copied" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>BI Gestão Sem Caos · um produto da Gestão Sem Caos, consultoria empresarial.</span>
+    <span>Todas as telas e números deste site são fictícios, criados para demonstração.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var ANIM=root.classList.contains('js');
+
+  /* tema */
+  try{var s=localStorage.getItem('nbi-tema'); if(s==='light'||s==='dark') root.setAttribute('data-theme',s);}catch(e){}
+  var tb=document.getElementById('themeBtn');
+  function atual(){var t=root.getAttribute('data-theme'); if(t) return t; return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+  tb.addEventListener('click',function(){var n=atual()==='dark'?'light':'dark'; root.setAttribute('data-theme',n); try{localStorage.setItem('nbi-tema',n);}catch(e){}});
+
+  /* formatos */
+  function mil(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+  function fmt(v,f){
+    if(f==='brl') return 'R$ '+mil(v);
+    if(f==='pct') return Math.round(v)+'%';
+    if(f==='x') return v.toFixed(1).replace('.',',')+'x';
+    return mil(v);
+  }
+  function easeOut(t){return 1-Math.pow(1-t,3);}
+  function contar(el){
+    var to=parseFloat(el.getAttribute('data-count')), f=el.getAttribute('data-fmt')||'int';
+    if(!ANIM){el.textContent=fmt(to,f);return;}
+    if(el._raf) cancelAnimationFrame(el._raf);
+    var t0=performance.now();
+    (function passo(now){var p=Math.min(1,(now-t0)/1200); el.textContent=fmt(to*easeOut(p),f); if(p<1) el._raf=requestAnimationFrame(passo);})(t0);
+  }
+  function digitar(el,txt){
+    if(txt==null) txt=el.getAttribute('data-full')||el.textContent;
+    el.setAttribute('data-full',txt);
+    if(el._id) clearInterval(el._id);
+    if(!ANIM){el.textContent=txt;return;}
+    var i=0; el.textContent=''; el.classList.add('typing');
+    el._id=setInterval(function(){i+=2; el.textContent=txt.slice(0,i); if(i>=txt.length){clearInterval(el._id); el._id=0; el.textContent=txt; el.classList.remove('typing');}},24);
+  }
+
+  /* mapa de calor */
+  var heat=document.getElementById('heat');
+  var dias=['Seg','Ter','Qua','Qui','Sex','Sáb'], man=[84,88,81,79,86,71], tar=[80,82,76,62,74,null];
+  var h='<span></span>'+dias.map(function(d){return '<span class="h">'+d+'</span>';}).join('');
+  function linha(nome,vals,off){
+    return '<span class="rl">'+nome+'</span>'+vals.map(function(v,i){
+      if(v==null) return '<span class="cell na" style="--i:'+(off+i)+'">—</span>';
+      var hi=v>=78, p=hi?Math.round(78+(v-78)/(90-78)*22):Math.max(8,Math.round(8+(v-55)/(78-55)*32));
+      return '<span class="cell'+(hi?' hi':'')+(v===62?' flag':'')+'" style="--p:'+p+'%;--i:'+(off+i)+'">'+v+'</span>';
+    }).join('');
+  }
+  heat.innerHTML=h+linha('Manhã',man,0)+linha('Tarde',tar,6);
+
+  /* revelação */
+  var blocos=[].slice.call(document.querySelectorAll('.rv'));
+  blocos.forEach(function(b){[].slice.call(b.querySelectorAll('.st')).forEach(function(c,i){if(!c.style.getPropertyValue('--i')) c.style.setProperty('--i',i);});});
+  if(ANIM) [].slice.call(document.querySelectorAll('.rv [data-count]')).forEach(function(el){el.textContent=fmt(0,el.getAttribute('data-fmt')||'int');});
+  function revelar(b){
+    if(b._ok) return; b._ok=1;
+    setTimeout(function(){
+      b.classList.add('in');
+      [].slice.call(b.querySelectorAll('[data-count]')).forEach(contar);
+      var t=b.querySelector('[data-type]'); if(t) setTimeout(function(){digitar(t);},300);
+    },ANIM?800:0);
+  }
+  if(ANIM){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){revelar(e.target);io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+    blocos.forEach(function(b){io.observe(b);});
+    setTimeout(function(){blocos.forEach(function(b){var r=b.getBoundingClientRect(); if(r.top<innerHeight&&r.bottom>0) revelar(b);});},2000);
+  } else blocos.forEach(function(b){b.classList.add('in');});
+
+  /* perspectiva do hero */
+  var mock=document.getElementById('mock'), stage=document.getElementById('stage');
+  var fino=matchMedia('(hover:hover) and (pointer:fine) and (min-width:961px)');
+  var alvoY=-9,alvoX=6,curY=-9,curX=6,rodando=false;
+  function quadro(){
+    curY+=(alvoY-curY)*.08; curX+=(alvoX-curX)*.08;
+    mock.style.transform='rotateX('+curX.toFixed(2)+'deg) rotateY('+curY.toFixed(2)+'deg)';
+    if(Math.abs(alvoY-curY)>.01||Math.abs(alvoX-curX)>.01) requestAnimationFrame(quadro); else rodando=false;
+  }
+  function mexer(){if(!rodando){rodando=true;requestAnimationFrame(quadro);}}
+  if(ANIM){
+    addEventListener('pointermove',function(e){
+      if(!fino.matches) return;
+      var r=stage.getBoundingClientRect(); if(r.bottom<0) return;
+      var nx=(e.clientX-(r.left+r.width/2))/innerWidth, ny=(e.clientY-(r.top+r.height/2))/innerHeight;
+      alvoY=-9+nx*12; alvoX=6-ny*8; mexer();
+    },{passive:true});
+    stage.addEventListener('pointerleave',function(){if(!fino.matches) return; alvoY=-9; alvoX=6; mexer();});
+    var mudou=function(){if(!fino.matches) mock.style.transform='';};
+    if(fino.addEventListener) fino.addEventListener('change',mudou);
+  }
+
+  /* exemplos */
+  var D={
+    aurora:{emp:'Clínica Aurora',av:'A',who:'Recepção — Marina',btn:'Enviar para Marina',
+      txt:'O faturamento do mês está 11% abaixo da meta. O principal motivo: 38 clientes passaram da data de retorno e ainda não voltaram. Isso vale cerca de R$ 24.700. Quem faz: Recepção — Marina.',
+      k:[['Faturamento do mês',186400,'brl','89% da meta'],['Ocupação da agenda',78,'pct','média da semana'],['Retorno do marketing',5.2,'x','por real investido']],
+      radar:[['','Comparecimento caiu para 74% (normal: 85%)','Recepção'],['','6 orçamentos vencem em 2 dias','Comercial'],['red','Fonte “Anúncios” sem atualizar desde ontem','Gestão']],
+      nota:'Painel de demonstração com dados fictícios da Clínica Aurora, empresa de exemplo.'},
+    vertice:{emp:'Loja Vértice',av:'V',who:'Vendas — Rafael',btn:'Enviar para Rafael',
+      txt:'As vendas do mês estão 6% acima do mês passado, puxadas pela recompra. 86 clientes da coleção anterior ainda não voltaram e valem cerca de R$ 18.400. Quem faz: Vendas — Rafael.',
+      k:[['Vendas do mês',265360,'brl','+6% vs mês anterior'],['Clientes que recompraram',41,'pct','da base ativa'],['Ticket médio',214,'brl','1.240 pedidos']],
+      radar:[['','86 clientes com recompra pendente','Vendas'],['','Ticket médio abaixo do normal no fim de semana','Gestão'],['red','Fonte “Anúncios” sem atualizar desde ontem','Gestão']],
+      nota:'Painel de demonstração com dados fictícios da Loja Vértice, empresa de exemplo.'}
+  };
+  var heroAtual='aurora';
+  function q(sel){return document.querySelector(sel);}
+  function setHero(k){
+    if(k===heroAtual) return; heroAtual=k; var d=D[k];
+    [].slice.call(document.querySelectorAll('[data-hero]')).forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-hero')===k?'true':'false');});
+    q('[data-h="emp"]').textContent=d.emp; q('[data-h="who"]').textContent=d.who;
+    var hs=document.getElementById('heroSend'); hs.textContent=d.btn; hs.setAttribute('data-label',d.btn); hs.classList.remove('done'); hs.disabled=false;
+    d.k.forEach(function(x,i){
+      var n=i+1; q('[data-h="k'+n+'l"]').textContent=x[0]; q('[data-h="k'+n+'s"]').textContent=x[3];
+      var v=q('[data-h="k'+n+'v"]'); v.setAttribute('data-count',x[1]); v.setAttribute('data-fmt',x[2]); contar(v);
+    });
+    var dn=document.getElementById('heroDonut'); dn.style.strokeDasharray=d.k[1][1]+' 100';
+    document.getElementById('heroRadar').innerHTML=d.radar.map(function(r){return '<li><span class="dot '+r[0]+'" aria-hidden="true"></span><span class="t">'+r[1]+'</span><span class="do">Fazer · '+r[2]+'</span></li>';}).join('');
+    document.getElementById('heroNote').textContent=d.nota;
+    digitar(document.getElementById('heroLeitura'),d.txt);
+  }
+  [].slice.call(document.querySelectorAll('[data-hero]')).forEach(function(b){b.addEventListener('click',function(){setHero(b.getAttribute('data-hero'));});});
+  var exAtual='aurora';
+  [].slice.call(document.querySelectorAll('.chip')).forEach(function(c){
+    c.addEventListener('click',function(){
+      [].slice.call(document.querySelectorAll('.chip')).forEach(function(o){o.setAttribute('aria-pressed',o===c?'true':'false');});
+      var k=c.getAttribute('data-seg'); exAtual=k; var d=D[k];
+      document.getElementById('exEmp').textContent=d.emp; document.getElementById('exAv').textContent=d.av; document.getElementById('exTxt').textContent=d.txt;
+      var proprio=/^(Clínicas|Estética|Odontologia|Varejo)/.test(c.textContent);
+      document.getElementById('exNota').textContent=proprio?'empresa de exemplo · fictícia':'exemplo fictício · a mesma lógica vale para '+c.textContent.toLowerCase();
+      setHero(k);
+    });
+  });
+  document.getElementById('exUp').addEventListener('click',function(){setHero(exAtual); document.getElementById('topo').scrollIntoView({behavior:ANIM?'smooth':'auto'});});
+
+  /* enviar para (demonstração) */
+  [].slice.call(document.querySelectorAll('.send')).forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.classList.contains('done')) return;
+      var lab=b.getAttribute('data-label')||'';
+      var nome=lab.replace('Enviar para','').trim();
+      b.classList.add('done'); b.textContent=nome?('Lembrete criado · '+nome):'Lembrete criado';
+      setTimeout(function(){b.classList.remove('done'); b.textContent=lab;},3200);
+    });
+  });
+
+  /* 38 clientes */
+  var b38=document.getElementById('btn38'), l38=document.getElementById('lista38');
+  b38.addEventListener('click',function(){var ab=l38.hasAttribute('hidden'); if(ab) l38.removeAttribute('hidden'); else l38.setAttribute('hidden',''); b38.setAttribute('aria-expanded',ab?'true':'false');});
+
+  /* i */
+  var ib=document.getElementById('ibtn'), ip=document.getElementById('ipop');
+  ib.addEventListener('click',function(){var ab=ip.hasAttribute('hidden'); if(ab) ip.removeAttribute('hidden'); else ip.setAttribute('hidden',''); ib.setAttribute('aria-expanded',ab?'true':'false');});
+
+
+  /* copiar número */
+  var cb=document.getElementById('copyBtn'), fn=document.getElementById('fone'), cp=document.getElementById('copied');
+  function ok(m){cp.textContent=m; clearTimeout(cp._t); cp._t=setTimeout(function(){cp.textContent='';},3000);}
+  cb.addEventListener('click',function(){
+    function reserva(){var r=document.createRange(); r.selectNodeContents(fn); var s=getSelection(); s.removeAllRanges(); s.addRange(r); var feito=false; try{feito=document.execCommand('copy');}catch(e){} ok(feito?'Número copiado':'Número selecionado — use Ctrl+C ou Cmd+C');}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText('62994029664').then(function(){ok('Número copiado');},reserva);} else reserva();
+  });
+
+  window.__nbiOk=true;
+})();
+</script>
+
+</body>
+</html>
